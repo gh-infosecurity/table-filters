@@ -82,12 +82,18 @@ const App = () => {
     let [cols, setCols] = useState(columns);
 
     function resetFiltersHandler() {
-        let map = columns.map(item => item.dataIndex === 'name' ? {...item, defaultFilteredValue: []} : item);
+
+        let map = columns.map(item => {
+            item = item.dataIndex === 'name' ? {...item, defaultFilteredValue: []} : item;
+            item = item.dataIndex === 'address' ? {...item, filterResetToDefaultFilteredValue: true} : item;
+            return item;
+        });
+
         console.log('resetFiltersHandler', map);
         setCols(map);
     }
 
-    console.log('re-render', cols[0]);
+    console.log('re-render', cols[0], cols[2]);
     return <>
         <Table columns={cols} dataSource={data} onChange={onChange}/>
         < Button onClick={resetFiltersHandler} type="primary">Reset Filters</Button>
